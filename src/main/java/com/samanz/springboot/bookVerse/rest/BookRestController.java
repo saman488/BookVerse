@@ -1,9 +1,7 @@
 package com.samanz.springboot.bookVerse.rest;
 
-import com.samanz.springboot.bookVerse.dao.BookDAO;
 import com.samanz.springboot.bookVerse.entity.Book;
 import com.samanz.springboot.bookVerse.service.BookService;
-import org.hibernate.internal.build.AllowPrintStacktrace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

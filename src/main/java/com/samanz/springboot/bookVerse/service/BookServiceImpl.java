@@ -1,12 +1,13 @@
 package com.samanz.springboot.bookVerse.service;
 
-import com.samanz.springboot.bookVerse.dao.BookDAO;
+import com.samanz.springboot.bookVerse.dao.BookRepository;
 import com.samanz.springboot.bookVerse.entity.Book;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -14,36 +15,44 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
 
-    private BookDAO bookDAO;
+    private BookRepository bookRepository;
 
     @Autowired
 
-    public BookServiceImpl(BookDAO theBookDAO) {
-        bookDAO = theBookDAO;
+    public BookServiceImpl(BookRepository theBookRepository) {
+        bookRepository = theBookRepository;
     }
 
     @Override
     public List<Book> findAll() {
-        return bookDAO.findAll();
+        return bookRepository.findAll();
     }
 
     @Override
     public Book findById(int theId) {
-        return bookDAO.findById(theId);
+        Optional<Book> result = bookRepository.findById(theId);
+
+        Book theBook =null;
+
+        if (result.isPresent()){
+            theBook= result.get();
+        }
+        else{
+            throw new RuntimeException("Did not find book id " + theId);
+        }
+        return theBook;
     }
 
-    @Transactional
     @Override
     public Book save(Book theBook) {
-        return bookDAO.save(theBook);
+        return bookRepository.save(theBook);
     }
 
 
-    @Transactional
     @Override
     public void deleteById(int theId) {
 
-        bookDAO.deleteById(theId);
+        bookRepository.deleteById(theId);
 
     }
 }
